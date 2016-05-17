@@ -1,0 +1,58 @@
+[
+    {
+        "Id":1, 
+        "name":"temperatureSensor", 
+        "description":"equip to collect air temperature", 
+        "type":"ANALOG", 
+        "direct":"INPUT",
+        "enable":"NONE"
+    },
+    {
+        "Id":2, 
+        "name":"moistureSensor", 
+        "description":"equip to collect air moisture", 
+        "type":"ANALOG", 
+        "direct":"INPUT",
+        "enable":"NONE"
+    },
+    {
+        "Id":3, 
+        "name":"soilMoistureSensor", 
+        "description":"equip to collect soil moisture", 
+        "type":"ANALOG", 
+        "direct":"INPUT",
+        "enable":"NONE"
+    },
+    {
+        "Id":4, 
+        "name":"luminaceSensor", 
+        "description":"equip to collect luminace", 
+        "type":"ANALOG", 
+        "direct":"INPUT",
+        "enable":"NONE"
+    },
+    {
+        "Id":5, 
+        "name":"valve", 
+        "description":"equip to drive valve(relay)", 
+        "type":"SWITCH", 
+        "direct":"OUTPUT",
+        "enable":"HIGH"
+    },
+    {
+        "Id":6,
+        "name":"Roller shutters",
+        "description":"equip to drive roller shutters(step)",
+        "type":"ANALOG",
+        "direct":"OUTPUT",
+        "enable":"NONE"
+    },
+    {
+        "Id":7,
+        "name":"Fan",
+        "description":"equip to drive Fan(relay)",
+        "type":"SWITCH",
+        "direct":"OUTPUT",
+        "enable":"HIGH"
+    }
+]

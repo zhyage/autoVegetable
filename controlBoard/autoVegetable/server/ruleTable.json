@@ -1,0 +1,52 @@
+[
+    {
+        "ruleList":
+        [
+            {"inputType":"EQUIP", "boardUID":"de:ad:be:ef:fe:ed", "equipId":3, "dataType":"AVERAGEVAL", "duration":10, "logic":"GREATER", "compareVal":4, "description":"soilMoisture get one hour data higner than 444"},
+            {"inputType":"TIMER", "timerId":1, "dataType":"CURVAL", "logic":"EQUAL", "compareVal":"STOP", "description":"timer for valve is in open status"},
+            {"inputType":"TIMER", "timerId":2, "dataType":"CURVAL", "logic":"EQUAL", "compareVal":"STOP", "description":"timer for just after had been irrigated"}
+
+        ],
+        "actionList":
+        [
+            {"outputType":"DRIVE_DEV", "boardUID":"de:ad:be:ef:fe:ed", "equipId":9, "value":1, "description":"open valve to start irrigation"},
+            {"outputType":"START_TIMER", "timeId":1, "value":60, "description":"start a timer to control irrigate duration"}
+        ]
+    },
+    {
+        "ruleList":
+        [
+            {"inputType":"TIMER", "timerId":1, "dataType":"CURVAL", "logic":"EQUAL", "compareVal":"TIMEOUT", "description":"irrigation timeout"}
+        ],
+        "actionList":
+        [
+            {"outputType":"DRIVE_DEV", "boardUID":"de:ad:be:ef:fe:ed", "equipId":9, "value":0, "description":"close valve to stop irrigation"},
+            {"outputType":"STOP_TIMER", "timeId":1, "description":"reset irrigation timer"},
+            {"outputType":"START_TIMER", "timeId":2, "valve":1800, "description":"don't allow irrigate just after irrigate done in 1800 seconds"}
+        ]
+    },
+    {
+        "ruleList":
+        [
+            {"inputType":"TIMER", "timerId":2, "dataType":"CURVAL", "logic":"EQUAL", "compareVal":"TIMEOUT", "description":"irrigate timing threshold timeout"}
+        ],
+        "actionList":
+        [
+            {"outputType":"STOP_TIMER", "timeId":2, "description":"reset irrigation threshold timer"},
+            {"outputType":"DRIVE_DEV", "boardUID":"de:ad:be:ef:fe:ed", "equipId":9, "value":1, "description":"open valve to start irrigation"}
+        ]
+    }
+    {
+        "ruleList":
+        [
+            {"inputType":"EQUIP", "boardUID":"de:ad:be:ef:fe:ed", "equipId":9, "dataType":"COUNT", "logic":"EQUAL", "compareVal":4, "description":"test a count input"},
+
+        ],
+        "actionList":
+        [
+            {"outputType":"STOP_TIMER", "timeId":2, "description":"reset irrigation threshold timer"},
+            {"outputType":"DRIVE_DEV", "boardUID":"de:ad:be:ef:fe:ed", "equipId":9, "value":1, "description":"open valve to start irrigation"}
+        ]
+    }
+
+]

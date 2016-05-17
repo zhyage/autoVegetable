@@ -1,0 +1,62 @@
+[
+  {
+    "boardType": "uno3",
+    "boardTypeId": 1,
+    "boardCapablity": [
+      {
+        "name": "temperature_1",
+        "equipId":1,
+        "equipType": 1,
+        "IONum": "2"
+      },
+      {
+        "name": "moisture_1",
+        "equipId":2,
+        "equipType": 2,
+        "IONum": "2"
+      },
+      {
+        "name": "soilMoisture_1",
+        "equipId":3,
+        "equipType": 3,
+        "IONum": "A0"
+      },
+      {
+        "name": "soilMoisture_2",
+        "equipId":4,
+        "equipType": 3,
+        "IONum": "A2"
+      },
+      {
+        "name": "soilMoisture_3",
+        "equipId":5,
+        "equipType": 3,
+        "IONum": "A3"
+      },
+      {
+        "name": "soilMoisture_4",
+        "equipId":6,
+        "equipType": 3,
+        "IONum": "A4"
+      },
+      {
+        "name": "soilMoisture_5",
+        "equipId":7,
+        "equipType": 3,
+        "IONum": "A5"
+      },
+      {
+        "name": "luminace_1",
+        "equipId":8,
+        "equipType": 4,
+        "IONum": "A1"
+      },
+      {
+        "name": "relay_1",
+        "equipId":9,
+        "equipType": 5,
+        "IONum": "3"
+      }
+    ]
+  }
+]
