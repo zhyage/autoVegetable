@@ -12,14 +12,14 @@
         ",
         "ruleList":
         [
-            {"inputType":"EQUIP", "boardUID":"de:ad:be:ef:fe:ed", "equipId":3, "dataType":"AVERAGEVAL", "duration":10, "logic":"GREATER", "compareVal":4},
+            {"inputType":"EQUIP", "boardUID":"de:ad:be:ef:fe:ed", "equipId":3, "dataType":"AVERAGEVAL", "duration":1800, "logic":"GREATER", "compareVal":444},
             {"inputType":"TIMER", "timerId":1, "dataType":"CURVAL", "logic":"EQUAL", "compareVal":"STOP"},
             {"inputType":"TIMER", "timerId":2, "dataType":"CURVAL", "logic":"EQUAL", "compareVal":"STOP"}
         ],
         "actionList":
         [
-            {"outputType":"DRIVE_DEV", "boardUID":"de:ad:be:ef:fe:ed", "equipId":9, "value":1, "description":"open valve to start irrigation"},
-            {"outputType":"START_TIMER", "timeId":1, "value":60, "description":"start a timer to control irrigate duration"}
+            {"outputType":"DRIVE_DEV", "boardUID":"de:ad:be:ef:fe:ed", "equipId":5, "value":1},
+            {"outputType":"START_TIMER", "timeId":1, "value":60}
         ]
     },
     {
@@ -38,9 +38,152 @@
         ],
         "actionList":
         [
-            {"outputType":"DRIVE_DEV", "boardUID":"de:ad:be:ef:fe:ed", "equipId":9, "value":0},
-            {"outputType":"STOP_TIMER", "timeId":1, "description":"reset irrigation timer"},
+            {"outputType":"DRIVE_DEV", "boardUID":"de:ad:be:ef:fe:ed", "equipId":5, "value":0},
+            {"outputType":"STOP_TIMER", "timeId":1},
             {"outputType":"START_TIMER", "timeId":2, "valve":1800}
+        ]
+    },
+    {
+        "description":
+        "
+        ruleList:
+            1. timer 2 timeout
+        actionList:
+            2. clear timer 2
+        ",
+        "ruleList":
+        [
+            {"inputType":"TIMER", "timerId":2, "dataType":"CURVAL", "logic":"EQUAL", "compareVal":"TIMEOUT"}
+        ],
+        "actionList":
+        [
+            {"outputType":"STOP_TIMER", "timerId":2}
+        ]
+    },
+
+
+    {
+        "description":
+        "
+        ruleList:
+            1. humidity 30mins average is greater than 444
+            2. timer 3 which create when fan start, is in STOP state
+            3. timer 4 which deny over fan usage is in STOP state
+        actionList:
+            1. start fan
+            2. start timer 3 for fan keep runing for 60 second
+        ",
+        "ruleList":
+        [
+            {"inputType":"EQUIP", "boardUID":"de:ad:be:ef:fe:ed", "equipId":2, "dataType":"AVERAGEVAL", "duration":1800, "logic":"GREATER", "compareVal":444},
+            {"inputType":"TIMER", "timerId":3, "dataType":"CURVAL", "logic":"EQUAL", "compareVal":"STOP"},
+            {"inputType":"TIMER", "timerId":4, "dataType":"CURVAL", "logic":"EQUAL", "compareVal":"STOP"}
+        ],
+        "actionList":
+        [
+            {"outputType":"DRIVE_DEV", "boardUID":"de:ad:be:ef:fe:ed", "equipId":6, "value":1},
+            {"outputType":"START_TIMER", "timeId":3, "value":60}
+        ]
+    },
+    {
+        "description":
+        "
+        ruleList:
+            1. timer 3 timeout
+        actionList:
+            1. stop fan
+            2. clear timer 3
+            3. start timer 4 meant to deny fan again in 30 mins again
+        ",
+        "ruleList":
+        [
+            {"inputType":"TIMER", "timerId":3, "dataType":"CURVAL", "logic":"EQUAL", "compareVal":"TIMEOUT"}
+        ],
+        "actionList":
+        [
+            {"outputType":"DRIVE_DEV", "boardUID":"de:ad:be:ef:fe:ed", "equipId":5, "value":0},
+            {"outputType":"STOP_TIMER", "timeId":3},
+            {"outputType":"START_TIMER", "timeId":4, "valve":1800}
+        ]
+    },
+    {
+        "description":
+        "
+        ruleList:
+            1. timer 4 timeout
+        actionList:
+            2. clear timer 4
+        ",
+        "ruleList":
+        [
+            {"inputType":"TIMER", "timerId":4, "dataType":"CURVAL", "logic":"EQUAL", "compareVal":"TIMEOUT"}
+        ],
+        "actionList":
+        [
+            {"outputType":"STOP_TIMER", "timerId":4}
+        ]
+    },
+
+    {
+        "description":
+        "
+        as same as humidity rules, using same timer to avoid conflict
+        ruleList:
+            1. temperature 30mins average is greater than 444
+            2. timer 3 which create when fan start, is in STOP state
+            3. timer 4 which deny over fan usage is in STOP state
+        actionList:
+            1. start fan
+            2. start timer 3 for fan keep runing for 60 second
+        ",
+        "ruleList":
+        [
+            {"inputType":"EQUIP", "boardUID":"de:ad:be:ef:fe:ed", "equipId":1, "dataType":"AVERAGEVAL", "duration":1800, "logic":"GREATER", "compareVal":444},
+            {"inputType":"TIMER", "timerId":3, "dataType":"CURVAL", "logic":"EQUAL", "compareVal":"STOP"},
+            {"inputType":"TIMER", "timerId":4, "dataType":"CURVAL", "logic":"EQUAL", "compareVal":"STOP"}
+        ],
+        "actionList":
+        [
+            {"outputType":"DRIVE_DEV", "boardUID":"de:ad:be:ef:fe:ed", "equipId":6, "value":1},
+            {"outputType":"START_TIMER", "timeId":3, "value":60}
+        ]
+    },
+    {
+        "description":
+        "
+        ruleList:
+            1. timer 3 timeout
+        actionList:
+            1. stop fan
+            2. clear timer 3
+            3. start timer 4 meant to deny fan again in 30 mins again
+        ",
+        "ruleList":
+        [
+            {"inputType":"TIMER", "timerId":3, "dataType":"CURVAL", "logic":"EQUAL", "compareVal":"TIMEOUT"}
+        ],
+        "actionList":
+        [
+            {"outputType":"DRIVE_DEV", "boardUID":"de:ad:be:ef:fe:ed", "equipId":5, "value":0},
+            {"outputType":"STOP_TIMER", "timeId":3},
+            {"outputType":"START_TIMER", "timeId":4, "valve":1800}
+        ]
+    },
+    {
+        "description":
+        "
+        ruleList:
+            1. timer 4 timeout
+        actionList:
+            2. clear timer 4
+        ",
+        "ruleList":
+        [
+            {"inputType":"TIMER", "timerId":4, "dataType":"CURVAL", "logic":"EQUAL", "compareVal":"TIMEOUT"}
+        ],
+        "actionList":
+        [
+            {"outputType":"STOP_TIMER", "timerId":4}
         ]
     },
 ]

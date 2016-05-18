@@ -33,25 +33,9 @@
     },
     {
         "Id":5, 
-        "name":"valve", 
-        "description":"equip to drive valve(relay)", 
+        "name":"relay", 
+        "description":"equip to drive relay", 
         "type":"SWITCH", 
-        "direct":"OUTPUT",
-        "enable":"HIGH"
-    },
-    {
-        "Id":6,
-        "name":"Roller shutters",
-        "description":"equip to drive roller shutters(step)",
-        "type":"ANALOG",
-        "direct":"OUTPUT",
-        "enable":"NONE"
-    },
-    {
-        "Id":7,
-        "name":"Fan",
-        "description":"equip to drive Fan(relay)",
-        "type":"SWITCH",
         "direct":"OUTPUT",
         "enable":"HIGH"
     }
