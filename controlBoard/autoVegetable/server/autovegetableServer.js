@@ -4,11 +4,6 @@ var _ = require('underscore')
 const dgram = require('dgram');
 var Struct = require('struct')
 
-/*var reportData = Struct()
-    .chars('mac', 6)
-    .word8('boardId')
-    .word8('equipId')
-    .word32Sle('value');*/
 
 var reportData = Struct()
     .array('mac',6,'word8')
@@ -20,8 +15,6 @@ var driveData = Struct()
     .word8('equipId')
     .word32Sle('value');     
 
-var existBoardList = []
-/*var boardDefine = loadBoardDefine('boardDefine.json')*/
 
 var boardDefine = []
 var TOPConfigure = []
@@ -52,121 +45,6 @@ function loadConfigureDefine(jsonFile) {
 }
 
 
-function findEquipInfo(boardId, equipId){
-/*    var boardDefine = loadBoardDefine("boardDefine.json")
-    console.log(boardDefine)*/
-    var findBoard = _.find(boardDefine, function(board){
-        return board.boardId == boardId
-    })
-    if(undefined != findBoard){
-        var findEquip = _.find(findBoard.boardCapablity, function(equip){
-            return equip.equipId == equipId
-        })
-    }
-    if(undefined != findEquip){
-        return true;
-    }else{
-        return false;
-    }
-    /*console.log('find equip : ')
-    console.log(findEquip)
-    return findEquip*/
-
-}
-
-/*function loadExistBoard(){
-    var existBoardFileContent = fs.readFileSync('existBoard.json')
-    if(0 != existBoardFileContent){
-        existBoard= JSON.parse(existBoardFileContent)
-    }
-}
-
-function saveExistBoard(){
-    if(0 != _.size(existBoard)){
-        fs.writeFileSync('existBoard.json', JSON.stringify(existBoard));
-    }
-}*/
-
-function showExistBoard(){
-    console.log(_.size(existBoardList), "boards exist ############################");
-    if(_.size(existBoardList) > 0){
-        _.each(existBoardList, function(board){
-            console.log('board.macAddr :', board.macAddr)
-            console.log('board.ipAddr :', board.ipAddr)
-            console.log('board.lastUpdateTime :', board.lastUpdateTime)
-            _.each(board.data.equipList, (equip)=>{
-                console.log('equipId **************:', equip.equipId)
-                _.each(equip.valueList, (value)=>{
-                    console.log('value : ', value.value)
-                    console.log('updateTime : ', value.updateTime)
-                })
-            })
-            console.log('-------------------------------')
-        })
-    }
-    return ""
-    
-}
-
-function verifyCollectData(data){
-    if(undefined == data.boardId || undefined == data.equipId || undefined == data.value){
-        return false;
-    }
-    return findEquipInfo(data.boardId, data.equipId);
-}
-
-function updateEquipData(existBoard, macAddr, ipAddr, lastUpdateTime, data){
-    existBoard.ipAddr = ipAddr 
-    existBoard.lastUpdateTime = lastUpdateTime
-    existBoard.data.boardId = data.boardId
-    var existEquip = _.find(existBoard.data.equipList, (equip)=>{
-        return equip.equipId == data.equipId
-    })
-    if(undefined == existEquip){
-        existBoard.data.equipList.push({'equipId':data.equipId, 'valueList':[{'value':data.value, 'updateTime':lastUpdateTime}]})
-    }else{
-        if(_.size(existEquip.valueList) < MAX_SAVE_DATA_NUM){
-            existEquip.valueList.push({'value':data.value, 'updateTime':lastUpdateTime})
-        }else{
-            existEquip.valueList.shift()
-            existEquip.valueList.push({'value':data.value, 'updateTime':lastUpdateTime})
-        }
-        
-    }
-}
-
-function updateExistBoard(macAddr, ipAddr, lastUpdateTime, data){
-    var existBoard = _.find(existBoardList, function(board){
-        return board.macAddr == macAddr
-    })
-    /*if(undefined == existBoard && true == verifyCollectData(data)){
-        existBoardList.push({'macAddr':macAddr, 'ipAddr':ipAddr,
-            'data':{'boardId':data.boardId, 'equipId':data.equipId, 'valueList':[{'value':data.value, 'updateTime':lastUpdateTime}]}});*/
-    /*if(undefined == existBoard && true == verifyCollectData(data)){
-        existBoardList.push({'macAddr':macAddr, 'ipAddr':ipAddr, 'lastUpdateTime':lastUpdateTime,
-            'data':{'boardId':data.boardId, 'valueList':[{'equipId':data.equipId, [{'value':data.value, 'updateTime':lastUpdateTime}]}]}});
-    }*/
-    if(undefined == existBoard && true == verifyCollectData(data)){
-        existBoardList.push({'macAddr':macAddr, 'ipAddr':ipAddr, 'lastUpdateTime':lastUpdateTime,
-            'data':{'boardId':data.boardId, 'equipList':[{'equipId':data.equipId, 'valueList':[{'value':data.value, 'updateTime':lastUpdateTime}]}]}});
-    }
-    else{
-        if(true == verifyCollectData(data)){
-            /*existBoard.ipAddr = ipAddr
-            existBoard.lastUpdateTime = lastUpdateTime
-            existBoard.data.boardId = data.boardId
-            existBoard.data.equipId = data.equipId
-            if(_.size(existBoard.data.valueList) < MAX_SAVE_DATA_NUM){
-                existBoard.data.valueList.push({'value':data.value, 'updateTime':lastUpdateTime})
-            }else{
-                existBoard.data.valueList.shift()
-                existBoard.data.valueList.push({'value':data.value, 'updateTime':lastUpdateTime})
-            }*/
-            updateEquipData(existBoard, macAddr, ipAddr, lastUpdateTime, data)
-        }
-    }
-}
-
 var reportMsg = reportData.clone();
 function startUDPServer(port){
     const server = dgram.createSocket('udp4');
@@ -179,23 +57,6 @@ function startUDPServer(port){
     server.on('message', (msg, rinfo) => {
     reportMsg._setBuff(msg)
     var reportMsgField = reportMsg.fields;
-    /*console.log(reportMsgField.mac)
-    console.log(reportMsgField.boardId)
-    console.log(reportMsgField.equipId)
-    console.log(reportMsgField.value)*/
-    //console.log(`server got: ${msg} from ${rinfo.address}:${rinfo.port}`);
-    /*updateExistBoard(reportMsgField.mac, rinfo.address, Date.now(), 
-                     {'boardId':reportMsgField.boardId, 'equipId':reportMsgField.equipId, 'value': reportMsgField.value})
-    showExistBoard()*/
-
-    /*console.log('mac length : ', _.size(reportMsgField.mac))
-    console.log('mac addrss : ')
-    _.each(reportMsgField.mac, (mac)=>{
-        console.log(mac.toString(16), "::")
-    })
-    console.log(reportMsgField.boardId)
-    console.log(reportMsgField.equipId)
-    console.log(reportMsgField.value)*/
     var boardUID = reportMsgField.mac[0].toString(16) + ':'
                     + reportMsgField.mac[1].toString(16) + ':'
                     + reportMsgField.mac[2].toString(16) + ':'
@@ -217,8 +78,6 @@ function startUDPServer(port){
 
     server.bind(port);
 }
-
-//startUDPServer(UDP_LISTEN_PORT);
 
 
 
@@ -352,6 +211,10 @@ function driveEquip(boardUID, equipId, value) {
         return
     }
     sendUDPDriveMsg(equipEle.remoteInfo.address, equipId, value)
+}
+
+function recordCrimeScene(){
+    
 }
 
 function showDataStorageTable(){
