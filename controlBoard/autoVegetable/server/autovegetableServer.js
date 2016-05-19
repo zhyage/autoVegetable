@@ -24,7 +24,7 @@ var timerTable = []
 var dataStorageTable = []
 const UDPClient = dgram.createSocket('udp4');
 
-var MAX_SAVE_DATA_NUM = 100 //pre min for one day
+var MAX_SAVE_DATA_NUM = 10000 //pre min for one day
 
 var UDP_LISTEN_PORT = 8877
 
@@ -102,7 +102,7 @@ function generatorDataStorageTable(){
             return topCfg.boardType == board.boardType
         })
         if(undefined != defineBoard){
-            var storageEle = {'boardUID':topCfg.boardUID, 'boardAttr':defineBoard, 'lastUpdateTime':Date.now(), 'equipList':[]}
+            var storageEle = {'boardUID':topCfg.boardUID, 'boardName':topCfg.boardAlias, 'boardAttr':defineBoard, 'lastUpdateTime':Date.now(), 'equipList':[]}
             _.each(defineBoard.boardCapablity, (equip)=>{
                 var equipTypeDef = getEquipTypeDefine(equip.equipType)
                 if(undefined != equipTypeDef){
@@ -144,10 +144,12 @@ function updateDataStorage(boardUID, equipId, value, rinfo) {
                     var valueSize = _.size(equipEle.valueList)
                     if (0 == valueSize) { //empty
                         equipEle.valueList.push(insertValue)
+                        recordCrimeScene(storageEle.boardName, equipEle.equipAttr.name, value)
                     } else {
                         var preVal = equipEle.valueList[_.size(equipEle.valueList) - 1]
                         if (preVal.value != value) {
                             equipEle.valueList.push(insertValue)
+                            recordCrimeScene(storageEle.boardName, equipEle.equipAttr.name, value)
                             if(equipEle.switchCount > 0){
                                 equipEle.switchCount -= 1 //count only valid for SWITCH equip
                             }
@@ -162,11 +164,13 @@ function updateDataStorage(boardUID, equipId, value, rinfo) {
                     var valueSize = _.size(equipEle.valueList)
                     if (0 == valueSize) { //empty
                         equipEle.valueList.push(insertValue)
+                        recordCrimeScene(storageEle.boardName, equipEle.equipAttr.name, value)
                     } else {
                         var preVal = equipEle.valueList[_.size(equipEle.valueList) - 1]
                         if (preVal.value != value) {
                             equipEle.valueList.shift()
                             equipEle.valueList.push(insertValue)
+                            recordCrimeScene(storageEle.boardName, equipEle.equipAttr.name, value)
                             if(equipEle.switchCount > 0){
                                 equipEle.switchCount -= 1 
                             }
@@ -213,8 +217,45 @@ function driveEquip(boardUID, equipId, value) {
     sendUDPDriveMsg(equipEle.remoteInfo.address, equipId, value)
 }
 
-function recordCrimeScene(){
-    
+function recordCrimeScene(InboardName, InequipName, InequipValue) {
+    console.info("---------------------------crime scene start -------------------------")
+    console.info("board : ", InboardName, " equip : ", InequipName, " value became to : ", InequipValue)
+    _.each(dataStorageTable, (storageEle) => {
+        var boardName = storageEle.boardName
+        _.each(storageEle.equipList, (equip) => {
+            var equipName = equip.equipAttr.name
+            if ('SWITCH' == equip.equipTypeAttr.type) {
+                valueListSize = _.size(equip.valueList)
+                if (valueListSize == 1) {
+                    var firstValue = _.last(equip.valueList)
+                    console.info("board : ", boardName, " equip : ", equipName, " firstValue : ",
+                        firstValue.value, " count : ", equip.switchCount)
+                } else if (valueListSize >= 2) {
+                    var preVal = equip.valueList[valueListSize - 2]
+                    var curVal = _.last(equip.valueList)
+                    console.info("board : ", boardName, " equip : ", equipName, " PREValue : ",
+                        preVal.value, " CURValue : ", curVal.value, " count : ", equip.switchCount)
+                }
+            } else {
+                if (_.size(equip.valueList) > 0) {
+                    var lastValue = _.last(equip.valueList)
+                    var sumVal = 0
+                    var num = 0;
+                    _.each(equip.valueList, (value) => {
+                        if (lastValue.updateTime - value.updateTime < 1800 * 1000) {
+                            sumVal += value.value
+                            num += 1
+                        }
+                    })
+                    var averageVal = sumVal / num
+                    console.info("board : ", boardName, " equip : ", equipName, " averageVal : ", averageVal)
+                }
+
+            }
+        })
+    })
+    console.info("---------------------------corime scene end --------------------------")
+
 }
 
 function showDataStorageTable(){

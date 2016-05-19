@@ -42,7 +42,7 @@ var gValue = 0;
 
 macList = [[0xde,0xad,0xbe,0xef,0xfe,0xed]]
 //equipList = [1, 2, 3, 4, 5, 6, 7, 9]
-equipList = [3, 4, 9]
+equipList = [3, 4, 5, 6, 7, 8]
 bufList = []
 
 
