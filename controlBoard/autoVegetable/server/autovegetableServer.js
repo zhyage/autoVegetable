@@ -24,7 +24,9 @@ var timerTable = []
 var dataStorageTable = []
 const UDPClient = dgram.createSocket('udp4');
 
-var MAX_SAVE_DATA_NUM = 10000 //pre min for one day
+//var MAX_SAVE_DATA_NUM = 10000 //pre min for one day
+
+var DATA_IN_RAM_DURATION = 60 * 1000 //one day
 
 var UDP_LISTEN_PORT = 8877
 
@@ -136,7 +138,9 @@ function updateDataStorage(boardUID, equipId, value, rinfo) {
                 'value': value,
                 'updateTime': currentTime
             }
-            if (_.size(equipEle.valueList) < MAX_SAVE_DATA_NUM) {
+            var firstValue = _.first(equipEle.valueList)
+            if(undefined == firstValue || insertValue.updateTime - firstValue.updateTime < DATA_IN_RAM_DURATION){
+            //if (_.size(equipEle.valueList) < MAX_SAVE_DATA_NUM) {
 
                 if (equipEle.equipTypeAttr.type != 'SWITCH') {
                     equipEle.valueList.push(insertValue)
@@ -224,8 +228,8 @@ function recordCrimeScene(InboardName, InequipName, InequipValue) {
         var boardName = storageEle.boardName
         _.each(storageEle.equipList, (equip) => {
             var equipName = equip.equipAttr.name
+            var valueListSize = _.size(equip.valueList)
             if ('SWITCH' == equip.equipTypeAttr.type) {
-                valueListSize = _.size(equip.valueList)
                 if (valueListSize == 1) {
                     var firstValue = _.last(equip.valueList)
                     console.info("board : ", boardName, " equip : ", equipName, " firstValue : ",
@@ -237,7 +241,7 @@ function recordCrimeScene(InboardName, InequipName, InequipValue) {
                         preVal.value, " CURValue : ", curVal.value, " count : ", equip.switchCount)
                 }
             } else {
-                if (_.size(equip.valueList) > 0) {
+                if (valueListSize > 0) {
                     var lastValue = _.last(equip.valueList)
                     var sumVal = 0
                     var num = 0;
@@ -248,7 +252,7 @@ function recordCrimeScene(InboardName, InequipName, InequipValue) {
                         }
                     })
                     var averageVal = sumVal / num
-                    console.info("board : ", boardName, " equip : ", equipName, " averageVal : ", averageVal)
+                    console.info("board : ", boardName, " equip : ", equipName, "valueListSize : ", valueListSize,  " averageVal : ", averageVal)
                 }
 
             }
