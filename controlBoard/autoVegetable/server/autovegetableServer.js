@@ -26,7 +26,7 @@ const UDPClient = dgram.createSocket('udp4');
 
 //var MAX_SAVE_DATA_NUM = 10000 //pre min for one day
 
-var DATA_IN_RAM_DURATION = 60 * 1000 //one day
+var DATA_IN_RAM_DURATION = 24 * 60 * 60 * 1000 //one day
 
 var UDP_LISTEN_PORT = 8877
 
@@ -165,6 +165,7 @@ function updateDataStorage(boardUID, equipId, value, rinfo) {
                 if (equipEle.equipTypeAttr.type != 'SWITCH') {
                     equipEle.valueList.shift()
                     equipEle.valueList.push(insertValue)
+                    recordCrimeScene(storageEle.boardName, equipEle.equipAttr.name, value)
                 } else {
                     var valueSize = _.size(equipEle.valueList)
                     if (0 == valueSize) { //empty
