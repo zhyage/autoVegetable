@@ -25,15 +25,11 @@ struct sendDataType
 
 struct equipDef equipList[] = 
 {
-    {0x03, "moisture_1", 1, 2, 0},
-    {0x02, "temperature_1", 2, 2, 0},
-    {0x04, "soilMoisture_1", 3, A0, 0},
-    {0x04, "soilMoisture_2", 4, A2, 0},
-    {0x04, "soilMoisture_3", 5, A3, 0},
-    {0x04, "soilMoisture_4", 6, A4, 0},
-    {0x04, "soilMoisture_5", 7, A5, 0},
-    {0x05, "luminace_1", 8, A1, 0},
-    {0x06, "relay_1", 9, 3, 0}
+    {0x02, "temperature_1",     1, 2, 0},
+    {0x03, "moisture_1",        2, 2, 0},
+    {0x04, "soilMoisture_1",    3, A0, 0},
+    {0x05, "luminace_1",        4, A1, 0},
+    {0x06, "relay_1",           5, 3, 0}
 };
 
 

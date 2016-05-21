@@ -82,7 +82,7 @@ for (var i = 0; i < 100000; i++) {
                 gValue += 1
                 proxy.value = gValue
                 console.log(buf);
-                client.send(buf, 8877, 'localhost', (err) => {
+                client.send(buf, 8877, '192.168.199.151', (err) => {
                     //console.log('error to send buf')
                     //client.close();
                 })

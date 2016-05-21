@@ -144,6 +144,7 @@ function updateDataStorage(boardUID, equipId, value, rinfo) {
 
                 if (equipEle.equipTypeAttr.type != 'SWITCH') {
                     equipEle.valueList.push(insertValue)
+                    recordCrimeScene(storageEle.boardName, equipEle.equipAttr.name, value)
                 } else {
                     var valueSize = _.size(equipEle.valueList)
                     if (0 == valueSize) { //empty
