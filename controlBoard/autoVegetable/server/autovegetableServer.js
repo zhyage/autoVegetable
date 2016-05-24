@@ -69,6 +69,7 @@ function startUDPServer(port){
     var collectValue = reportMsgField.value
     
     updateDataStorage(boardUID, equipId, collectValue, rinfo)
+    judgeAndAction('EQUIP', {"boardUID":boardUID, "equipId":equipId})
     //showDataStorageTable()
 
   });
@@ -88,7 +89,8 @@ function loadConfigure(){
     boardDefine = loadConfigureDefine('boardDefine.json')
     TOPConfigure = loadConfigureDefine('TOPConfigure.json')
     equipTypeDefine = loadConfigureDefine('equipTypeDefine.json')
-    ruleTable = loadConfigureDefine('ruleTable.json')
+    //ruleTable = loadConfigureDefine('ruleTable.json')
+    ruleTable = loadConfigureDefine('ruleTableReal.json')
 
     if(null == boardDefine || null == TOPConfigure || null == equipTypeDefine){
         console.error('error to loadConfigure');
@@ -144,17 +146,17 @@ function updateDataStorage(boardUID, equipId, value, rinfo) {
 
                 if (equipEle.equipTypeAttr.type != 'SWITCH') {
                     equipEle.valueList.push(insertValue)
-                    recordCrimeScene(storageEle.boardName, equipEle.equipAttr.name, value)
+                    recordCrimeScene(storageEle.boardName, equipEle.equipAttr.name, value, false)
                 } else {
                     var valueSize = _.size(equipEle.valueList)
                     if (0 == valueSize) { //empty
                         equipEle.valueList.push(insertValue)
-                        recordCrimeScene(storageEle.boardName, equipEle.equipAttr.name, value)
+                        recordCrimeScene(storageEle.boardName, equipEle.equipAttr.name, value, true)
                     } else {
                         var preVal = equipEle.valueList[_.size(equipEle.valueList) - 1]
                         if (preVal.value != value) {
                             equipEle.valueList.push(insertValue)
-                            recordCrimeScene(storageEle.boardName, equipEle.equipAttr.name, value)
+                            recordCrimeScene(storageEle.boardName, equipEle.equipAttr.name, value, true)
                             if(equipEle.switchCount > 0){
                                 equipEle.switchCount -= 1 //count only valid for SWITCH equip
                             }
@@ -165,18 +167,18 @@ function updateDataStorage(boardUID, equipId, value, rinfo) {
                 if (equipEle.equipTypeAttr.type != 'SWITCH') {
                     equipEle.valueList.shift()
                     equipEle.valueList.push(insertValue)
-                    recordCrimeScene(storageEle.boardName, equipEle.equipAttr.name, value)
+                    recordCrimeScene(storageEle.boardName, equipEle.equipAttr.name, value, false)
                 } else {
                     var valueSize = _.size(equipEle.valueList)
                     if (0 == valueSize) { //empty
                         equipEle.valueList.push(insertValue)
-                        recordCrimeScene(storageEle.boardName, equipEle.equipAttr.name, value)
+                        recordCrimeScene(storageEle.boardName, equipEle.equipAttr.name, value, true)
                     } else {
                         var preVal = equipEle.valueList[_.size(equipEle.valueList) - 1]
                         if (preVal.value != value) {
                             equipEle.valueList.shift()
                             equipEle.valueList.push(insertValue)
-                            recordCrimeScene(storageEle.boardName, equipEle.equipAttr.name, value)
+                            recordCrimeScene(storageEle.boardName, equipEle.equipAttr.name, value, true)
                             if(equipEle.switchCount > 0){
                                 equipEle.switchCount -= 1 
                             }
@@ -223,7 +225,10 @@ function driveEquip(boardUID, equipId, value) {
     sendUDPDriveMsg(equipEle.remoteInfo.address, equipId, value)
 }
 
-function recordCrimeScene(InboardName, InequipName, InequipValue) {
+function recordCrimeScene(InboardName, InequipName, InequipValue, switch_change) {
+    if(true == switch_change){
+        console.info("++++++++++++++++++++++switch change +++++++++++++++++++++++++++++++")
+    }
     console.info("---------------------------crime scene start -------------------------")
     console.info("board : ", InboardName, " equip : ", InequipName, " value became to : ", InequipValue)
     _.each(dataStorageTable, (storageEle) => {
@@ -519,16 +524,19 @@ function getTimerEle(timerId){
 }
 
 function timeoutCallback(timerId){
+    console.info("zztimeoutCallback : ", timerId)
     var timer = getTimerEle(timerId)
     if(undefined != timer){
         timer.state.shift()
         timer.state[1] = 'TIMEOUT'
         timer.timerFd = undefined
     }
+    judgeAndAction('TIMER', {"timerId":timerId})
 
 }
 
 function clearTimer(timerId){
+    console.info("zzclearTimer : ", timerId)
     var timer = getTimerEle(timerId)
     if(undefined != timer){
         if(undefined != timer.timerFd){
@@ -538,9 +546,11 @@ function clearTimer(timerId){
         timer.state[1] = 'STOP'
         timer.timerFd = undefined
     }
+
 }
 
 function createTimer(timerId, delay){
+    console.info("zzcreateTimer : ", timerId, delay)
     var timerEle = getTimerEle(timerId)
     if(undefined == timerEle){
         return
@@ -551,6 +561,7 @@ function createTimer(timerId, delay){
     timerEle.state.shift()
     timerEle.state[1] = 'RUNNING'
     timerEle.timerFd = setTimeout(timeoutCallback, delay, timerId)
+
 }
 
 function showTimerTable(){
@@ -585,10 +596,10 @@ setTimeout(function(){
     judgeAndAction('EQUIP', {"boardUID":"de:ad:be:ef:fe:ed", "equipId":3})
 }, 1000)*/
 
-setInterval(function(){
+/*setInterval(function(){
     judgeAndAction('TIMER', {"timerId":2})
 }, 1000)
-createTimer(2, 7000)
+createTimer(2, 7000)*/
 //judgeAndAction('EQUIP', {"boardUID":"de:ad:be:ef:fe:ed", "equipId":3})
 //judgeAndAction('TIMER', {"timerId":1})
 
