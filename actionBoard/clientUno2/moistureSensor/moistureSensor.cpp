@@ -23,7 +23,7 @@ bool moistureEquip::collectFunction(unsigned char IONum, int *returnVal)
     return true;
 };
 
-void moistureEquip::driveFunction(unsigned char IONum, int setVal, unsigned int timer)
+void moistureEquip::driveFunction(unsigned char IONum, int setVal)
 {
     return;
 }

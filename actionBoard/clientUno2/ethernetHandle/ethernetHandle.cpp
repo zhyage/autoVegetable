@@ -30,7 +30,7 @@ void ethernetHandle::printIPAddress(IPAddress ipAddress)
   Serial.println();
 }
 
-size_t ethernetHandle::UDPrecvPacket()
+size_t ethernetHandle::UDPrecvPacket(uint8_t *recvMsg)
 {
   size_t packetSize = Udp.parsePacket();
   if (packetSize) 
@@ -52,8 +52,11 @@ size_t ethernetHandle::UDPrecvPacket()
     // read the packet into packetBufffer
     Udp.read(recvBuffer, UDP_TX_PACKET_MAX_SIZE);
     Serial.println("Contents:");
-    Serial.println(recvBuffer);  
+    Serial.println(recvBuffer);
+    memcpy(recvMsg, recvBuffer, packetSize);
+    return packetSize;  
   }
+  return 0;
 }
 
 bool ethernetHandle::UDPSendPacket(uint8_t *msg, size_t length)

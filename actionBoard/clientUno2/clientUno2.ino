@@ -32,9 +32,20 @@ struct equipDef equipList[] =
     {0x06, "relay_1",           5, 3, 0}
 };
 
-
-
 ethernetHandle *ethernetHd = NULL;
+
+struct equipDef *findEquipByEquipId(uint8_t equipId)
+{
+    uint8_t i = 0;
+    for(i = 0; i < sizeof(equipList)/sizeof(struct equipDef); i++)
+    {
+        if(equipId == equipList[i].equipId)
+        {
+            return &equipList[i];
+        }
+    }
+    return NULL;
+}
 
 void initEquipList()
 {
@@ -58,11 +69,8 @@ SimpleTimer timer;
 
 struct DriveData
 {
-    unsigned int boardId;
-    unsigned char equipType;
-    char name[16];
-    unsigned int value;
-    unsigned int timer;
+    uint8_t equipId;
+    int32_t value;
 };
 
 
@@ -102,37 +110,52 @@ bool sendCollectData(byte *mac, uint8_t boardTypeId, uint8_t equipId, int32_t va
 
 void recvData(/*struct DriveData *driveData*/)
 {
-    ethernetHd->UDPrecvPacket();
-    Serial.println("###########################");
-    Serial.println(millis());
+    struct DriveData recvMsg;
+    uint8_t length = 0;
+    length = ethernetHd->UDPrecvPacket((uint8_t *)(&recvMsg));
+    if(0 != length)
+    {
+        Serial.println("###########################");
+        Serial.print("recv drive equipId : ");
+        Serial.println(recvMsg.equipId);
+        Serial.print("value : ");
+        Serial.println(recvMsg.value);
+        struct equipDef *driveEquip = findEquipByEquipId(recvMsg.equipId);
+        if(NULL != driveEquip)
+        {
+            driveEquip->equipEle->driveFunction(driveEquip->IONum, recvMsg.value);
+        }
+    }
+    
+
     //return true;
 }
 
-void driveBoardEquip()
-{
-    static int setValue = 0;
-    if(setValue == 1)
-    {
-        setValue = 0;
-    }
-    else
-    {
-        setValue = 1;
-    }
-    size_t equipNum = sizeof(equipList)/sizeof(struct equipDef);
-    for(size_t i = 0; i < equipNum; i++)
-    {
-        struct equipDef *e = &equipList[i];
-        e->equipEle->driveFunction(e->IONum, setValue, 1000);
-        Serial.print("equip : ");
-        Serial.print(e->equipEle->getEquipName());
-        Serial.print(" setValue : ");
-        Serial.println(setValue);
-        Serial.println("---------------------------------");
-        //delay(1000);
-        //e->equipEle->driveFunction(2, 66, 1000);
-    }
-}
+// void driveBoardEquip()
+// {
+//     static int setValue = 0;
+//     if(setValue == 1)
+//     {
+//         setValue = 0;
+//     }
+//     else
+//     {
+//         setValue = 1;
+//     }
+//     size_t equipNum = sizeof(equipList)/sizeof(struct equipDef);
+//     for(size_t i = 0; i < equipNum; i++)
+//     {
+//         struct equipDef *e = &equipList[i];
+//         e->equipEle->driveFunction(e->IONum, setValue, 1000);
+//         Serial.print("equip : ");
+//         Serial.print(e->equipEle->getEquipName());
+//         Serial.print(" setValue : ");
+//         Serial.println(setValue);
+//         Serial.println("---------------------------------");
+//         //delay(1000);
+//         //e->equipEle->driveFunction(2, 66, 1000);
+//     }
+// }
 
 void collectAndSendBoardData()
 {

@@ -23,7 +23,7 @@ bool temperatureEquip::collectFunction(unsigned char IONum, int *returnVal)
     return true;
 }
 
-void temperatureEquip::driveFunction(unsigned char IONum, int setVal, unsigned int timer)
+void temperatureEquip::driveFunction(unsigned char IONum, int setVal)
 {
     return;
 }

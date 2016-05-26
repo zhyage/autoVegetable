@@ -268,12 +268,12 @@ function recordCrimeScene(InboardName, InequipName, InequipValue, switch_change)
         })
     })
     console.info("---------------------------corime scene end --------------------------")
-    if(fakeValve == 0){
+/*    if(fakeValve == 0){
         fakeValve = 1
     }else{
         fakeValve = 0
     }
-    driveEquip('de:ad:be:ef:fe:ed', 5, fakeValve)
+    driveEquip('de:ad:be:ef:fe:ed', 5, fakeValve)*/
 
 }
 

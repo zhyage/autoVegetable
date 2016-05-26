@@ -18,7 +18,7 @@
         "equipId": 3,
         "dataType": "AVERAGEVAL",
         "duration": 1800,
-        "logic": "LESS",
+        "logic": "GREATER",
         "compareVal": 30
       },
       {

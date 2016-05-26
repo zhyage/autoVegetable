@@ -18,7 +18,7 @@ class ethernetHandle
 public:
     ethernetHandle();
     void printIPAddress(IPAddress ipAddress);
-    size_t UDPrecvPacket();
+    size_t UDPrecvPacket(uint8_t *recvMsg);
     bool UDPSendPacket(uint8_t *msg, size_t length);
     byte* getMacAddress()
     {

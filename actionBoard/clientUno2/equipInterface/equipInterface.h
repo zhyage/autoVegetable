@@ -13,7 +13,7 @@ class equip
 {
 public:
     virtual bool collectFunction(unsigned char IONum, int *returnVal) = 0;
-    virtual void driveFunction(unsigned char IONum, int setVal, unsigned int timer) = 0;
+    virtual void driveFunction(unsigned char IONum, int setVal) = 0;
     equip(const char* name, uint8_t eId, unsigned char IO, unsigned char type): equipName(name), equipId(eId), equipIO(IO), equipType(type)
     {
     }

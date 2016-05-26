@@ -6,7 +6,7 @@ bool digitOutEquip::collectFunction(unsigned char IONum, int *returnVal)
     return true;
 };
 
-void digitOutEquip::driveFunction(unsigned char IONum, int setVal, unsigned int timer)
+void digitOutEquip::driveFunction(unsigned char IONum, int setVal)
 {
     digitalWrite(IONum, setVal);
     return;

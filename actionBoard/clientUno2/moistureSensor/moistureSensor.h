@@ -12,7 +12,7 @@ public:
     {
     }
     bool collectFunction(unsigned char IONum, int *returnVal);
-    void driveFunction(unsigned char IONum, int setVal, unsigned int timer);
+    void driveFunction(unsigned char IONum, int setVal);
 private:
     dht11 DHT11;
 };

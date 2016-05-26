@@ -6,7 +6,7 @@ bool analogInEquip::collectFunction(unsigned char IONum, int *returnVal)
     return true;
 };
 
-void analogInEquip::driveFunction(unsigned char IONum, int setVal, unsigned int timer)
+void analogInEquip::driveFunction(unsigned char IONum, int setVal)
 {
     return;
 }
