@@ -97,10 +97,10 @@ function fackData(inEquip){
 
     if("soilMoisture_1" == inEquip.name){
         if(valve.value == 1){
-            inEquip.value += 5
+            inEquip.value += 11
         }
 
-        inEquip.value -= 0.1
+        inEquip.value -= 0.056
     }
 
 }

@@ -576,6 +576,19 @@ function monitorTimerTable(){
     setInterval(showTimerTable, 1000)
 }
 
+function saveDataToFile(){
+    var dataStorageTableString = JSON.stringify(dataStorageTable)
+    //console.info("dataStorageTableString : ", dataStorageTableString)
+    fs.writeFile('../public/data/collectFileSave.json', dataStorageTableString, (err)=>{
+        if(err){
+            console.error("error to save collectFileSave.json : ", err)
+        }else{
+            console.info("successfully to save collectFileSave.json-----------------------------------------")
+        }
+
+    })
+}
+
 
 initTimerTable()
 loadConfigure()
@@ -602,5 +615,9 @@ setTimeout(function(){
 createTimer(2, 7000)*/
 //judgeAndAction('EQUIP', {"boardUID":"de:ad:be:ef:fe:ed", "equipId":3})
 //judgeAndAction('TIMER', {"timerId":1})
+
+setInterval(function(){
+    saveDataToFile()
+},10*60*1000)
 
 

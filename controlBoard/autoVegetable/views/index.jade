@@ -1,5 +1,25 @@
-extends layout
-
-block content
-  h1= title
-  p Welcome to #{title}
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    title Simple Graph
+    style(type='text/css').
+      body{ font: 12px Arial;}
+      path{
+      stroke: steelblue;
+      stroke-width: 2;
+      fill: none;
+      }
+      .axis path,
+      .axis line{
+      fill: none;
+      stroke: grey;
+      stroke-width: 1;
+      shape-rendering: crispEdges;
+      }
+    script(type='text/javascript', src='javascripts/bower_components/underscore/underscore-min.js')
+    script(type='text/javascript', src='javascripts/bower_components/jquery/dist/jquery.min.js')
+    //script(type='text/javascript', src='http://d3js.org/d3.v3.js')
+    script(type='text/javascript', src='javascripts/bower_components/d3/d3.min.js')
+    script(type='text/javascript', src='javascripts/showCollectionData.js')
+  body
