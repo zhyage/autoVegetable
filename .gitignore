@@ -1,6 +1,6 @@
 node_modules/
 bin/
+bower_components/
 public/data/
 clientUno2.sublime-project
 clientUno2.sublime-workspace
-javascripts/bower_components/
