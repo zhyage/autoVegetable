@@ -18,6 +18,11 @@ public:
     {
 
     }
+    bool collectFunction(unsigned char IONum, int *returnVal)
+    {    
+        *returnVal = analogRead(IONum)/10;   
+        return true;
+    };
 };
 
 #endif

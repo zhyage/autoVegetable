@@ -225,6 +225,8 @@ function driveEquip(boardUID, equipId, value) {
     sendUDPDriveMsg(equipEle.remoteInfo.address, equipId, value)
 }
 
+var fakeValve = 0
+
 function recordCrimeScene(InboardName, InequipName, InequipValue, switch_change) {
     if(true == switch_change){
         console.info("++++++++++++++++++++++switch change +++++++++++++++++++++++++++++++")
@@ -266,6 +268,12 @@ function recordCrimeScene(InboardName, InequipName, InequipValue, switch_change)
         })
     })
     console.info("---------------------------corime scene end --------------------------")
+    if(fakeValve == 0){
+        fakeValve = 1
+    }else{
+        fakeValve = 0
+    }
+    driveEquip('de:ad:be:ef:fe:ed', 5, fakeValve)
 
 }
 
