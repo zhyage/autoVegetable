@@ -598,7 +598,7 @@ function saveDataToFile(){
 }
 
 function activeEquip(boardId, equipId){
-    var equip = var equipEle = getEquipFromStorage(boardUID, equipId)
+    var equip = getEquipFromStorage(boardUID, equipId)
     if(undefined == equip || undefined == equip.remoteInfo.address){
         return
     }
