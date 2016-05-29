@@ -597,6 +597,15 @@ function saveDataToFile(){
     })
 }
 
+function activeEquip(boardId, equipId){
+    var equip = var equipEle = getEquipFromStorage(boardUID, equipId)
+    if(undefined == equip || undefined == equip.remoteInfo.address){
+        return
+    }
+    sendUDPDriveMsg(equipEle.remoteInfo.address, equipId, 1)
+
+}
+
 
 initTimerTable()
 loadConfigure()
@@ -627,5 +636,9 @@ createTimer(2, 7000)*/
 setInterval(function(){
     saveDataToFile()
 },10*60*1000)
+
+setInterval(function(){
+    activeEquip("de:ad:be:ef:fe:ed", 5)
+}, 60*1000)
 
 

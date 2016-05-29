@@ -23,13 +23,17 @@ struct sendDataType
     int32_t value;
 };
 
+/*equipType equipName equipId IONum equipEle*/
 struct equipDef equipList[] = 
 {
     {0x02, "temperature_1",     1, 2, 0},
     {0x03, "moisture_1",        2, 2, 0},
     {0x04, "soilMoisture_1",    3, A0, 0},
     {0x05, "luminace_1",        4, A1, 0},
-    {0x06, "relay_1",           5, 3, 0}
+    {0x06, "relay_1",           5, 3, 0},//valve
+    {0x06, "relay_2",           6, 4, 0},//fan
+    {0x06, "relay_3",           7, 5, 0},//light
+    {0x06, "relay_4",           8, 6, 0}//warmer
 };
 
 ethernetHandle *ethernetHd = NULL;
