@@ -602,7 +602,7 @@ function equipOperate(boardUID, equipId, value){
     if(undefined == equip || undefined == equip.remoteInfo.address){
         return
     }
-    sendUDPDriveMsg(equipEle.remoteInfo.address, equipId, value)
+    sendUDPDriveMsg(equip.remoteInfo.address, equipId, value)
 }
 
 function activeEquip(boardUID, equipId){
