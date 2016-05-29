@@ -597,14 +597,24 @@ function saveDataToFile(){
     })
 }
 
-function activeEquip(boardId, equipId){
+function equipOperate(boardUID, equipId, value){
     var equip = getEquipFromStorage(boardUID, equipId)
     if(undefined == equip || undefined == equip.remoteInfo.address){
         return
     }
-    sendUDPDriveMsg(equipEle.remoteInfo.address, equipId, 1)
-
+    sendUDPDriveMsg(equipEle.remoteInfo.address, equipId, value)
 }
+
+function activeEquip(boardUID, equipId){
+    equipOperate(boardUID, equipId, 1)
+}
+
+function deactiveEquip(boardUID, equipId){
+    equipOperate(boardUID, equipId, 0)
+}
+
+
+
 
 
 initTimerTable()
@@ -639,6 +649,9 @@ setInterval(function(){
 
 setInterval(function(){
     activeEquip("de:ad:be:ef:fe:ed", 5)
+    setTimeout(function(){
+        deactiveEquip("de:ad:be:ef:fe:ed", 5)
+    },20*1000)
 }, 60*1000)
 
 
