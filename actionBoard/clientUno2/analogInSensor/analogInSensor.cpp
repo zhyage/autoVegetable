@@ -1,8 +1,11 @@
 #include "analogInSensor.h"
 
 bool analogInEquip::collectFunction(uint8_t IONum, int32_t *returnVal)
-{    
-    *returnVal = analogRead(IONum)*100/1024;   
+{
+    int32_t getVal = analogRead(IONum);
+    Serial.print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx : ");
+    Serial.println(getVal);    
+    *returnVal = getVal*100/1024;   
     return true;
 };
 
