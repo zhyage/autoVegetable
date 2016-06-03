@@ -1,6 +1,6 @@
 #include "ethernetHandle.h"
 
-static const unsigned int UDPPORT=8888;
+static const uint16_t UDPPORT=8888;
 
 ethernetHandle::ethernetHandle()
 {

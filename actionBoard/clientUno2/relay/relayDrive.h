@@ -14,7 +14,7 @@
 class relayEquip: public digitOutEquip
 {
 public:
-    relayEquip(const char* name, uint8_t eId, unsigned char IONum, unsigned char type): digitOutEquip(name, eId, IONum, type)
+    relayEquip(const uint8_t* name, uint8_t eId, uint8_t IONum, uint8_t type): digitOutEquip(name, eId, IONum, type)
     {
     }
 };

@@ -1,8 +1,8 @@
 #include "moistureSensor.h"
 
-bool moistureEquip::collectFunction(unsigned char IONum, int *returnVal)
+bool moistureEquip::collectFunction(uint8_t IONum, int32_t *returnVal)
 {    
-    int chk = DHT11.read(IONum);
+    int16_t chk = DHT11.read(IONum);
 
     switch (chk)
     {
@@ -23,7 +23,7 @@ bool moistureEquip::collectFunction(unsigned char IONum, int *returnVal)
     return true;
 };
 
-void moistureEquip::driveFunction(unsigned char IONum, int setVal)
+void moistureEquip::driveFunction(uint8_t IONum, int32_t setVal)
 {
     return;
 }

@@ -8,10 +8,10 @@
 
 struct equipDef
 {
-    unsigned char equipType;
-    char equipName[16];
+    uint8_t equipType;
+    uint8_t equipName[16];
     uint8_t equipId;
-    unsigned char IONum;
+    uint8_t IONum;
     equip *equipEle;
 };
 
@@ -171,10 +171,10 @@ void collectAndSendBoardData()
     }
 
     struct equipDef *e = &equipList[currentNum];
-    int returnVal = 0;
+    int32_t returnVal = 0;
     e->equipEle->collectFunction(e->IONum, &returnVal);
     Serial.print("equip : ");
-    Serial.print(e->equipEle->getEquipName());
+    Serial.print((char *)(e->equipEle->getEquipName()));
     Serial.print("equipId : ");
     Serial.print(e->equipEle->getEquipId());
     Serial.print(" collectValue : ");

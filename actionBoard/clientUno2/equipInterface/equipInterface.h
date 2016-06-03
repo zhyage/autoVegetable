@@ -12,12 +12,12 @@
 class equip
 {
 public:
-    virtual bool collectFunction(unsigned char IONum, int *returnVal) = 0;
-    virtual void driveFunction(unsigned char IONum, int setVal) = 0;
-    equip(const char* name, uint8_t eId, unsigned char IO, unsigned char type): equipName(name), equipId(eId), equipIO(IO), equipType(type)
+    virtual bool collectFunction(uint8_t IONum, int32_t *returnVal) = 0;
+    virtual void driveFunction(uint8_t IONum, int32_t setVal) = 0;
+    equip(const uint8_t* name, uint8_t eId, uint8_t IO, uint8_t type): equipName(name), equipId(eId), equipIO(IO), equipType(type)
     {
     }
-    const char* getEquipName()
+    const uint8_t* getEquipName()
     {
         return equipName;
     }
@@ -25,31 +25,31 @@ public:
     {
         return equipId;
     }
-    unsigned char getEquipIO()
+    uint8_t getEquipIO()
     {
         return equipIO;
     }
-    unsigned char getEquipType()
+    uint8_t getEquipType()
     {
         return equipType;
     }
 private:
-    const char* equipName;
+    const uint8_t* equipName;
     uint8_t equipId;
-    unsigned char equipIO;
-    unsigned char equipType;
+    uint8_t equipIO;
+    uint8_t equipType;
 };
 
 class equipFactory
 {
 public:
-    virtual equip *createEquip(unsigned char equipType, const char* name, uint8_t equipId, unsigned char IONum) = 0;
+    virtual equip *createEquip(uint8_t equipType, const uint8_t* name, uint8_t equipId, uint8_t IONum) = 0;
 };
 
 class factory: public equipFactory
 {
 public:
-    equip *createEquip(unsigned char equipType, const char* name, uint8_t equipId, unsigned char IONum);
+    equip *createEquip(uint8_t equipType, const uint8_t* name, uint8_t equipId, uint8_t IONum);
 
 };
 

@@ -14,15 +14,10 @@
 class soilMoistureEquip: public analogInEquip
 {
 public:
-    soilMoistureEquip(const char* name, uint8_t eId, unsigned char IONum, unsigned char type): analogInEquip(name, eId, IONum, type)
+    soilMoistureEquip(const uint8_t* name, uint8_t eId, uint8_t IONum, uint8_t type): analogInEquip(name, eId, IONum, type)
     {
 
     }
-    bool collectFunction(unsigned char IONum, int *returnVal)
-    {    
-        *returnVal = analogRead(IONum)/10;   
-        return true;
-    };
 };
 
 

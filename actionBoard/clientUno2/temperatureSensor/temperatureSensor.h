@@ -8,11 +8,11 @@
 class temperatureEquip: public equip
 {
 public:
-    temperatureEquip(const char* name, uint8_t eId, unsigned char IONum, unsigned char type): equip(name, eId, IONum, type)
+    temperatureEquip(const uint8_t* name, uint8_t eId, uint8_t IONum, uint8_t type): equip(name, eId, IONum, type)
     {
     }
-    bool collectFunction(unsigned char IONum, int *returnVal);
-    void driveFunction(unsigned char IONum, int setVal);
+    bool collectFunction(uint8_t IONum, int32_t *returnVal);
+    void driveFunction(uint8_t IONum, int32_t setVal);
 private:
     dht11 DHT11;    
 
