@@ -1,6 +1,6 @@
 #include "temperatureSensor.h"
 
-bool temperatureEquip::collectFunction(unsigned char IONum, int *returnVal)
+bool temperatureEquip::collectFunction(uint8_t IONum, int32_t *returnVal)
 {
     int chk = DHT11.read(IONum);
 
@@ -23,7 +23,7 @@ bool temperatureEquip::collectFunction(unsigned char IONum, int *returnVal)
     return true;
 }
 
-void temperatureEquip::driveFunction(unsigned char IONum, int setVal)
+void temperatureEquip::driveFunction(uint8_t IONum, int32_t setVal)
 {
     return;
 }

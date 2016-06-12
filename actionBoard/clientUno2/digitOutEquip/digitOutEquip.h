@@ -12,12 +12,12 @@
 class digitOutEquip: public equip
 {
 public:
-    digitOutEquip(const char* name, uint8_t eId, unsigned char IO, unsigned char type): equip(name, eId, IO, type)
+    digitOutEquip(const uint8_t* name, uint8_t eId, uint8_t IO, uint8_t type): equip(name, eId, IO, type)
     {
         pinMode(IO, OUTPUT);
     }
-    bool collectFunction(unsigned char IONum, int *returnVal);
-    void driveFunction(unsigned char IONum, int setVal);
+    bool collectFunction(uint8_t IONum, int32_t *returnVal);
+    void driveFunction(uint8_t IONum, int32_t setVal);
 };
 
 #endif

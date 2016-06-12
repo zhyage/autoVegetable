@@ -5,7 +5,7 @@
 #include "../luminaceSensor/luminaceSensor.h"
 #include "../relay/relayDrive.h"
 
-equip * factory::createEquip(unsigned char equipType, const char* name, uint8_t equipId, unsigned char IONum)
+equip * factory::createEquip(uint8_t equipType, const uint8_t* name, uint8_t equipId, uint8_t IONum)
 {
     if(0x02 == equipType)
     {
