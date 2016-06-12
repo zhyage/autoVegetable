@@ -15,6 +15,8 @@ var driveData = Struct()
     .word8('equipId')
     .word32Sle('value');     
 
+var ConfPath ="/data/autoVegetable/autoVegetable/controlBoard/autoVegetable/server/"
+
 
 var boardDefine = []
 var TOPConfigure = []
@@ -86,11 +88,11 @@ function startUDPServer(port){
 
 function loadConfigure(){
     
-    boardDefine = loadConfigureDefine('boardDefine.json')
-    TOPConfigure = loadConfigureDefine('TOPConfigure.json')
-    equipTypeDefine = loadConfigureDefine('equipTypeDefine.json')
-    //ruleTable = loadConfigureDefine('ruleTable.json')
-    ruleTable = loadConfigureDefine('ruleTableReal.json')
+    boardDefine = loadConfigureDefine(ConfPath + 'boardDefine.json')
+    TOPConfigure = loadConfigureDefine(ConfPath + 'TOPConfigure.json')
+    equipTypeDefine = loadConfigureDefine(ConfPath + 'equipTypeDefine.json')
+    //ruleTable = loadConfigureDefine(ConfPath + 'ruleTable.json')
+    ruleTable = loadConfigureDefine(ConfPath + 'ruleTableReal.json')
 
     if(null == boardDefine || null == TOPConfigure || null == equipTypeDefine){
         console.error('error to loadConfigure');
@@ -587,7 +589,7 @@ function monitorTimerTable(){
 function saveDataToFile(){
     var dataStorageTableString = JSON.stringify(dataStorageTable)
     //console.info("dataStorageTableString : ", dataStorageTableString)
-    fs.writeFile('../public/data/collectFileSave.json', dataStorageTableString, (err)=>{
+    fs.writeFile(ConfPath + '../public/data/collectFileSave.json', dataStorageTableString, (err)=>{
         if(err){
             console.error("error to save collectFileSave.json : ", err)
         }else{
