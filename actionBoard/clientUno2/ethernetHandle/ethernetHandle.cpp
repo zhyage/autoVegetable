@@ -61,7 +61,7 @@ size_t ethernetHandle::UDPrecvPacket(uint8_t *recvMsg)
 
 bool ethernetHandle::UDPSendPacket(uint8_t *msg, size_t length)
 {
-    IPAddress rip(192, 168, 199, 151);
+    IPAddress rip(10, 0, 0, 1);
     Udp.beginPacket(rip, 8877);
     Udp.write(msg, length);
     Udp.endPacket();
