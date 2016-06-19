@@ -19,7 +19,21 @@ html(lang='en')
       }
     script(type='text/javascript', src='javascripts/bower_components/underscore/underscore-min.js')
     script(type='text/javascript', src='javascripts/bower_components/jquery/dist/jquery.min.js')
-    //script(type='text/javascript', src='http://d3js.org/d3.v3.js')
     script(type='text/javascript', src='javascripts/bower_components/d3/d3.min.js')
     script(type='text/javascript', src='javascripts/showCollectionData.js')
   body
+  #actionList
+      input(type='checkbox', name='valve', value='valve')
+      | enable valve
+      br
+      input(type='checkbox', name='fan', value='fan')
+      | enable fan
+      br
+      input(type='checkbox', name='light', value='light')
+      | enable light
+      br
+      input(type='checkbox', name='warmer', value='warmer')
+      | enable warmer
+      br
+  #monitorButton    
+      input(type='button', name='monitorDataShow', value='monitorDataShow')

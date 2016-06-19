@@ -186,4 +186,24 @@ $(document).ready(function() {
                   .style("fill", "red")
                   .call(y2Axis);
       })
+
+      function columDataSelected(e) {
+            if (this.checked) {
+                  alert("checked " + this.name)
+            } else {
+                  alert("unchecked " + this.name)
+            }
+      }
+
+      function attachCheckboxHandlers() {
+            var el = document.getElementById('actionList')
+            var tops = el.getElementsByTagName('input')
+            _.each(tops, (top) => {
+                        if (top.type === 'checkbox') {
+                              top.onclick = columDataSelected
+                        }
+                  })
+      }
+
+    attachCheckboxHandlers()
 })
