@@ -189,10 +189,13 @@ $(document).ready(function() {
 
       function columDataSelected(e) {
             if (this.checked) {
-                  alert("checked " + this.name)
+                  //alert("checked " + this.name)
+                  var content = {'boardUID': 'de:ad:be:ef:fe:ed', "equipId":parseInt(this.value), "action":"enable"}
             } else {
-                  alert("unchecked " + this.name)
+                  //alert("unchecked " + this.name)
+                  var content = {'boardUID': 'de:ad:be:ef:fe:ed', "equipId":parseInt(this.value), "action":"disable"}
             }
+            submit2Server("zhy", "123", 1, content)
       }
 
       function attachCheckboxHandlers() {

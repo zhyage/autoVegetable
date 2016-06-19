@@ -15,7 +15,8 @@ var driveData = Struct()
     .word8('equipId')
     .word32Sle('value');     
 
-var ConfPath ="/data/autoVegetable/autoVegetable/controlBoard/autoVegetable/server/"
+//var ConfPath ="/data/autoVegetable/autoVegetable/controlBoard/autoVegetable/server/"
+var ConfPath = "./"
 
 
 var boardDefine = []
@@ -26,6 +27,7 @@ var timerTable = []
 var dataStorageTable = []
 const UDPClient = dgram.createSocket('udp4');
 
+
 //var MAX_SAVE_DATA_NUM = 10000 //pre min for one day
 
 var DATA_IN_RAM_DURATION = 24 * 60 * 60 * 1000 //one day
@@ -35,6 +37,8 @@ var UDP_LISTEN_PORT = 8877
 var UDP_BOARD_LISTEN_PORT = 8888
 
 var MAX_TIMER_NUM = 5
+
+var UDP_LISTEN_PORT_FROM_WEB = 8899
 
 
 function loadConfigureDefine(jsonFile) {
@@ -84,6 +88,27 @@ function startUDPServer(port){
     server.bind(port);
 }
 
+
+function startUDPServerForWeb(port){
+    const server = dgram.createSocket('udp4');
+
+    server.on('error', (err) => {
+      console.log(`server error:\n${err.stack}`);
+      server.close();
+  });
+
+    server.on('message', (msg, rinfo) => {
+    console.log("control data from web : ", msg);
+
+  });
+
+    server.on('listening', () => {
+      var address = server.address();
+      console.log(`server listening ${address.address}:${address.port}`);
+  });
+
+    server.bind(port);
+}
 
 
 function loadConfigure(){
@@ -624,6 +649,7 @@ loadConfigure()
 generatorDataStorageTable()
 showDataStorageTable()
 startUDPServer(UDP_LISTEN_PORT)
+startUDPServerForWeb(UDP_LISTEN_PORT_FROM_WEB)
 /*monitorTimerTable()
 createTimer(0, 7000)
 createTimer(1, 3000)
