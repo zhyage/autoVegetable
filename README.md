@@ -4,9 +4,10 @@
 
 hello 
 
-![Alt text](http://g.gravizo.com/source/custom_mark?https%3A%2F%2Fraw.githubusercontent.com%2FTLmaK0%2Fgravizo%2Fmaster%2FREADME.md)
-<!---
-custom_mark
+![Alt text](http://g.gravizo.com/source/thiisthemark?http%3A%2F%2Fwww.gravizo.com)
+![Alt text](http://www.gravizo.com/img/1x1.png#
+
+thiisthemark        
 @startuml
 object Object01
 object Object02
@@ -22,5 +23,5 @@ Object03 *-- Object04
 Object05 o-- "4" Object06
 Object07 .. Object08 : some labels
 @enduml
-custom_mark
--->
+thiisthemark        
+)
